@@ -58,13 +58,17 @@ app.get('/login', function(req, res)
     res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
 });
 
-app.post('/login', function(req, res)
-{
-    //Petición POST con URL = "/login"
-    console.log("Soy un pedido POST", req.body); 
-    //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método POST
-    //res.render('home', { mensaje: "Hola mundo!", usuario: req.body.usuario}); //Renderizo página "home" enviando un objeto de 2 parámetros a Handlebars
-    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
+app.put('/login', async function(req, res){
+    console.log("Soy un pedido POST", req.body);
+
+    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.user}" AND password = "${req.body.pass}"`)
+    if (respuesta.length > 0) {
+        res.send({validar: true})
+    
+    }
+    else{
+        res.send({validar:false})    
+    } 
 });
 
 app.put('/login', function(req, res) {
