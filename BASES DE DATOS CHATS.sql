@@ -27,4 +27,13 @@ create table Contactos(
     user varchar(50),
     password varchar(50)
 );
-
+INSERT INTO Contactos  (user,password)
+Values
+('faustoide', 'pepe'),
+('nbasile', 'grego'),
+('richard', 'momo'),
+('cirito', 'george')
+;
+Select *
+From Contactos
+;

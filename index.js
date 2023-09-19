@@ -50,18 +50,11 @@ app.get('/', function(req, res)
     res.render('login', null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
 });
 
-app.get('/login', function(req, res)
-{
-    //Petición GET con URL = "/login"
-    console.log("Soy un pedido GET", req.query); 
-    //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
-    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
-});
-
 app.put('/login', async function(req, res){
-    console.log("Soy un pedido POST", req.body);
+    console.log("Soy un pedido PUT", req.body);
 
-    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.user}" AND password = "${req.body.pass}"`)
+    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
+    
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -71,11 +64,14 @@ app.put('/login', async function(req, res){
     } 
 });
 
-app.put('/login', function(req, res) {
-    //Petición PUT con URL = "/login"
-    console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
-    res.send(null);
+app.post('/login', function(req, res)
+{
+    //Petición GET con URL = "/login"
+    console.log("Soy un pedido Post login", req.query); 
+    //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
+    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
 });
+
 
 app.delete('/login', function(req, res) {
     //Petición DELETE con URL = "/login"

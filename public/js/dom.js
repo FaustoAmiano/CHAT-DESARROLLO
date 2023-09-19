@@ -1,9 +1,9 @@
 function login(){
-    user = document.getElementById("usuarioId")
-    pass = document.getElementById("passwordId")
+    user = document.getElementById("usuarioId").value
+    passw = document.getElementById("passwordId").value
     data = {
         usuario: user,
-        pass: password
+        pass: passw
     }
     entrar(data)
 }
@@ -11,7 +11,7 @@ function login(){
 async function entrar(data){
     try {
         const response = await fetch("/login", {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -24,7 +24,8 @@ async function entrar(data){
     
         if (result.validar == false) {
           alert("Los datos son incorrectos")
-        } else {
+        } 
+        else {
             {document.getElementById("loguearse").submit()}        
           }
       } catch (error) {
