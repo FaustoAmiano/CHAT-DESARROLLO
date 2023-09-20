@@ -32,11 +32,11 @@ async function entrar(data){
         console.error("Error:", error);
       }
 }
-$( '.friend-drawer--onhover' ).on( 'click',  function() {
+/*$( '.friend-drawer--onhover' ).on( 'click',  function() {
   
   $( '.chat-bubble' ).hide('slow').show('slow');
   
-});
+});*/
 
 
 
