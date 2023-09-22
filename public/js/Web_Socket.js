@@ -5,9 +5,27 @@ socket.on("connect", () => {
     console.log("Me conecté a WS");
 });
 
+
 function funcionPrueba() {
-    socket.emit("incoming-message", { mensaje: "PRUEBA" });
+    textoEnviado= document.getElementById("msj").value
+    data={
+        mensaje: textoEnviado
+    }
+    socket.emit("incoming-message", { mensaje: textoEnviado });
 }
 socket.on("server-message", data => {
     console.log("Me llego del servidor", data);
+    document.getElementById("nuewvoMensaje").innerHTML += `
+    <div class="chat-panel">
+    <div class="row no-gutters">
+      <div class="col-md-3">
+        <div class="chat-bubble chat-bubble--right">
+          ${data.mensaje}
+        </div>
+      </div>
+    </div>
+    `; 
+    
+    
 });
+
