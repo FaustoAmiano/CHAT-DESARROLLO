@@ -169,3 +169,20 @@ hr {
 .chat-box-tray i:last-of-type {
     margin-left: 25px;
 }
+
+#chat-panel{
+    height: 1000px;
+
+    width: 700px;
+}
+
+;#escribir{
+
+    position: relative;
+
+    bottom:-150px;
+    
+    text-align: center;       
+
+    padding-right: 90px;
+}
