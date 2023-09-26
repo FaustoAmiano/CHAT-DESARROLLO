@@ -98,9 +98,16 @@ io.on("connection", (socket) => {
 
     //Función Listener
     //Esto serìa el equivalente a un app.post, app.get...
+
+    
+
     socket.on('incoming-message', data => {
+        mensajes=data.mensaje
+        console.log(mensajes)
+        await MySQL.realizarQuery(` INSERT INTO mensajes `)
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
     });
+    
 });
 //setInterval(() => io.emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 2000);
