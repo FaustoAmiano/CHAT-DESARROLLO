@@ -9,5 +9,6 @@ function funcionPrueba() {
     socket.emit("incoming-message", { mensaje: "PRUEBA" });
 }
 socket.on("server-message", data => {
+    
     console.log("Me llego del servidor", data);
 });
