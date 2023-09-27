@@ -130,7 +130,7 @@ app.delete('/login', function(req, res) {
     console.log("Soy un pedido DELETE", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método DELETE
     res.send(null);
 });
-
+let roomCounter= 0;
 io.on("connection", (socket) => {
     //Esta línea es para compatibilizar con lo que venimos escribiendo
     const req = socket.request;
@@ -148,6 +148,12 @@ io.on("connection", (socket) => {
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
     });
+
+    socket.on('room', data => {
+        socket.join("room"+roomCounter)
+        io.to(socket.id).emit("room", "room"+roomCounter)
+        roomCounter++
+    })
     
 });
 //setInterval(() => io.emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 2000);
@@ -155,3 +161,9 @@ io.on("connection", (socket) => {
 async function guardarMensaje(mensaje){
     respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes VALUE "${mensaje}"`)
 }
+
+
+io.on("connection", socket => {
+    socket.join("some room");
+  });
+

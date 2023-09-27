@@ -61,7 +61,7 @@ async function registrarse(data){
     console.log("Success:", result);
     if (result.validar == false) {
       alert("El usuario no se puede crear")
-      location.href = '/registrarse'
+      location.href = '/Registro'
     }
     else{
       console.log("Usuario creado con exito")
@@ -71,6 +71,8 @@ async function registrarse(data){
     console.error("Error:", error);
   }
 }
+
+
 
 /*$( '.friend-drawer--onhover' ).on( 'click',  function() {
   

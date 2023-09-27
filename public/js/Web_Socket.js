@@ -1,5 +1,6 @@
 const IP = "ws://localhost:3000";
 const socket = io(IP);
+let room;
 
 socket.on("connect", () => {
     console.log("Me conecté a WS");
@@ -35,3 +36,30 @@ socket.on("server-message", data => {
     
 });
 
+socket.emit("room", "Robocop")
+
+socket.on("room", data => {
+  room=data;
+})
+function entrarchats(){
+  backChats()  
+}
+
+async function backChats(){
+  try {
+    const response = await fetch("/buscarChat", {
+      method: "POST", // or 'POST'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+    
+    //En result obtengo la respuesta
+    const result = await response.json();
+    console.log("Success:", result);
+    
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
