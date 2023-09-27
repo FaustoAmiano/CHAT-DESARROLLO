@@ -68,6 +68,8 @@ app.put('/login', async function(req, res){
 
     let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
     
+    req.session.conectado = req.body.usuario;
+
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -89,20 +91,18 @@ app.post('/nuevoUsuario', async function(req, res)
     let validar = true
     //Petición POST con URL = "/login"
     console.log("Soy un pedido POST", req.body); 
-    let users= await MySQL.realizarQuery("SELECT * FROM Usuarios")
-    if (req.body.mail.length == 0 || req.body.user.length == 0 || req.body.pass.length == 0 ){
+    let users= await MySQL.realizarQuery("SELECT * FROM Contactos")
+    if (req.body.user.length == 0 || req.body.pass.length == 0 ){
         validar = false 
     }
     for (let i in users){
-        if (req.body.mail == users[i].mail){
+        if (req.body.user == users[i].user){
             console.log("falso")
             validar = false
         }
     }
     if (validar==true) {
-        await MySQL.realizarQuery (`INSERT INTO Usuarios VALUES("${req.body.mail}", "${req.body.user}", "${req.body.pass}",${false},${0})`) 
-        mailLogueado = req.body.mail
-        console.log(mailLogueado)   
+        await MySQL.realizarQuery (`INSERT INTO Contactos VALUES("${req.body.user}", "${req.body.pass}")`)   
         console.log("verdadero")
         res.send({validar:true}); //Renderizo página "home" enviando un objeto de 2 parámetros a Handlebars
     }
@@ -143,10 +143,15 @@ io.on("connection", (socket) => {
     socket.on('incoming-message', data => {
         mensajess=data.mensaje
         console.log(mensajess)
- //       respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes VALUE "${mensajess}"`)
+        console.log(req.session.conectado)
+        guardarMensaje(mensajess)
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
     });
     
 });
 //setInterval(() => io.emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 2000);
+
+async function guardarMensaje(mensaje){
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes VALUE "${mensaje}"`)
+}

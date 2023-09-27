@@ -35,12 +35,10 @@ async function entrar(data){
 
 function nuevoUsuario(){
 
-  let correo = document.getElementById("mailId").value
   let usuario = document.getElementById("usuarioId").value
   let contraseña = document.getElementById("passwordId").value
 
   let data = {
-    mail: correo,
     user: usuario,
     pass: contraseña
   }
