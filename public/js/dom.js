@@ -32,6 +32,48 @@ async function entrar(data){
         console.error("Error:", error);
       }
 }
+
+function nuevoUsuario(){
+
+  let correo = document.getElementById("mailId").value
+  let usuario = document.getElementById("usuarioId").value
+  let contraseña = document.getElementById("passwordId").value
+
+  let data = {
+    mail: correo,
+    user: usuario,
+    pass: contraseña
+  }
+    registrarse(data)
+
+}
+
+async function registrarse(data){
+    try {
+    const response = await fetch("/nuevoUsuario", {
+      method: "POST", // or 'POST'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    
+    //En result obtengo la respuesta
+    const result = await response.json();
+    console.log("Success:", result);
+    if (result.validar == false) {
+      alert("El usuario no se puede crear")
+      location.href = '/registrarse'
+    }
+    else{
+      console.log("Usuario creado con exito")
+      location.href = '/home'
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 /*$( '.friend-drawer--onhover' ).on( 'click',  function() {
   
   $( '.chat-bubble' ).hide('slow').show('slow');

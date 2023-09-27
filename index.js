@@ -77,6 +77,45 @@ app.put('/login', async function(req, res){
     } 
 });
 
+app.get('/registrarse', function(req, res){
+    //Petición GET con URL = "/login"
+    console.log("Soy un pedido GET", req.query); 
+    //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
+    res.render('Registro', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
+});
+
+app.post('/nuevoUsuario', async function(req, res)
+{
+    let validar = true
+    //Petición POST con URL = "/login"
+    console.log("Soy un pedido POST", req.body); 
+    let users= await MySQL.realizarQuery("SELECT * FROM Usuarios")
+    if (req.body.mail.length == 0 || req.body.user.length == 0 || req.body.pass.length == 0 ){
+        validar = false 
+    }
+    for (let i in users){
+        if (req.body.mail == users[i].mail){
+            console.log("falso")
+            validar = false
+        }
+    }
+    if (validar==true) {
+        await MySQL.realizarQuery (`INSERT INTO Usuarios VALUES("${req.body.mail}", "${req.body.user}", "${req.body.pass}",${false},${0})`) 
+        mailLogueado = req.body.mail
+        console.log(mailLogueado)   
+        console.log("verdadero")
+        res.send({validar:true}); //Renderizo página "home" enviando un objeto de 2 parámetros a Handlebars
+    }
+    else if (validar==false){
+        console.log("falso2")
+        res.send({validar:false})
+    }
+    
+    //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método POST
+    
+    //res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
+});
+
 app.post('/login', function(req, res)
 {
     //Petición GET con URL = "/login"
@@ -102,9 +141,9 @@ io.on("connection", (socket) => {
     
 
     socket.on('incoming-message', data => {
-        mensajes=data.mensaje
-        console.log(mensajes)
-        await MySQL.realizarQuery(` INSERT INTO mensajes `)
+        mensajess=data.mensaje
+        console.log(mensajess)
+ //       respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes VALUE "${mensajess}"`)
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
     });
