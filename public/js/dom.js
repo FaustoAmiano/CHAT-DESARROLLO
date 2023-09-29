@@ -72,6 +72,49 @@ async function registrarse(data){
   }
 }
 
+async function mostrar() {
+  try {
+    const response = await fetch("/mostrarChats", {
+      method: "PUT", // or 'POST'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({validar: true}),
+    });
+    
+    //En result obtengo la respuesta
+    const result = await response.json();
+    console.log("Success:", result);
+    let vector = result.chats[0]
+    
+    console.log("Success:", vector);
+
+    /*
+        */
+    
+    
+    let html = `
+        <div class="friend-drawer friend-drawer--onhover" >
+        <div class="text">`
+    for (let i in vector){
+      html+=
+      `
+            <h6>${vector[i].chats}</h6>
+      `;
+    }
+    html += `</div>
+                <span class="time text-muted small">13:21</span>
+            </div>
+        <hr>`;
+    document.getElementById("seleccion").innerHTML = html;
+  }
+  catch (error) {
+    console.error("Error:", error);
+  
+}
+}
+
+
 
 
 /*$( '.friend-drawer--onhover' ).on( 'click',  function() {

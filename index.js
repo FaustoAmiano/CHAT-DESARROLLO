@@ -102,7 +102,7 @@ app.post('/nuevoUsuario', async function(req, res)
         }
     }
     if (validar==true) {
-        await MySQL.realizarQuery (`INSERT INTO Contactos VALUES("${req.body.user}", "${req.body.pass}")`)   
+        await MySQL.realizarQuery (`INSERT INTO Contactos (user,password) VALUES("${req.body.user}", "${req.body.pass}")`)   
         console.log("verdadero")
         res.send({validar:true}); //Renderizo página "home" enviando un objeto de 2 parámetros a Handlebars
     }
@@ -165,5 +165,19 @@ async function guardarMensaje(mensaje){
 
 io.on("connection", socket => {
     socket.join("some room");
-  });
+});
+
+app.put('/mostrarChats', async function(req, res) {
+    //Petición PUT con URL = "/login"
+    console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
+    let vector = [await MySQL.realizarQuery(` SELECT * FROM chats `)]
+    console.log(vector)
+    if (vector.length > 0) {
+        res.send({chats: vector})    
+    }
+    else{
+        res.send({chats:false})    
+    }
+});
+
 
