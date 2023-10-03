@@ -88,22 +88,24 @@ async function mostrar() {
     console.log("Success:", result);
     let vector = result
     console.log("Success:", vector); 
-    console.log(vector.chats[0]) 
-    let html = `
+    console.log("dd", vector.chats[0][0].nombre) 
+
+    for (let i = 0; i < vector.chats[0].length; i++) {
+      const element = vector.chats[0][i];
+      console.log("Elemnt: ",element.nombre)
+      let html = `
         <div class="friend-drawer friend-drawer--onhover" >
         <div class="text">`
-    for (let i in vector){
-      console.log("mario", vector[i].chats.nombre)
-      html+=
-      `
-            <h6>${vector[i].chats}</h6>
+      html+=`
+        <h6>${element.nombre}</h6>
       `;
+      html += `</div>
+            <span class="time text-muted small">13:21</span>
+        </div>
+      <hr>`;
+      document.getElementById("chats").innerHTML += html;
     }
-    html += `</div>
-                <span class="time text-muted small">13:21</span>
-            </div>
-        <hr>`;
-    document.getElementById("seleccion").innerHTML = html;
+    
   }
   catch (error) {
     console.error("Error:", error);

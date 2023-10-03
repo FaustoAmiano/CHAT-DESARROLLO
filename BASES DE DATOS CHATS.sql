@@ -37,3 +37,19 @@ Values
 Select *
 From Contactos
 ;
+INSERT INTO usuarios_chats (id_chat, ID_contact)
+Values (1, 1);
+INSERT INTO usuarios_chats (id_chat, ID_contact)
+Values (2, 1);
+INSERT INTO usuarios_chats (id_chat, ID_contact)
+Values (2, 2);
+INSERT INTO usuarios_chats (id_chat, ID_contact)
+Values (3, 2);
+
+DELETE FROM Customers WHERE id_userchat= 6;
+
+select *
+from usuarios_chats
+;
+INSERT INTO mensajes (id_chat, ID_contact, mensaje, fecha)
+Values (1, 1, "nigga", "2018-12-01");
