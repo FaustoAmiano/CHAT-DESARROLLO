@@ -84,19 +84,16 @@ async function mostrar() {
     
     //En result obtengo la respuesta
     const result = await response.json();
-    console.log("Success:", result);
-    let vector = result.chats[0]
-    
-    console.log("Success:", vector);
 
-    /*
-        */
-    
-    
+    console.log("Success:", result);
+    let vector = result
+    console.log("Success:", vector); 
+    console.log(vector.chats[0]) 
     let html = `
         <div class="friend-drawer friend-drawer--onhover" >
         <div class="text">`
     for (let i in vector){
+      console.log("mario", vector[i].chats.nombre)
       html+=
       `
             <h6>${vector[i].chats}</h6>
