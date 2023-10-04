@@ -69,7 +69,8 @@ app.put('/login', async function(req, res){
     let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
     
     req.session.conectado = req.body.usuario;
-
+    req.session.id = req.body.ID_contact;
+    
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -150,17 +151,20 @@ io.on("connection", (socket) => {
     });
 
     socket.on('room', data => {
-        socket.join("room"+roomCounter)
-        io.to(socket.id).emit("room", "room"+roomCounter)
-        roomCounter++
+        socket.join("room"+data.mandar)
+
+        socket.emit('event', nuevaPag())
+       // io.to(socket.id).emit("room", "room"+roomCounter)
+        
     })
     
 });
-//setInterval(() => io.emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 2000);
 
-async function guardarMensaje(mensaje){
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes VALUE "${mensaje}"`)
-}
+/*setInterval(() => io.to("room1").emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 1000);*/
+
+/*async function guardarMensaje(mensaje){
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, id_contacto, mensaje, fecha) VALUES "${}", "${req.session.id}", "${mensaje}", "${}" `)
+}*/
 
 
 io.on("connection", socket => {

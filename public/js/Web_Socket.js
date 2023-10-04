@@ -36,13 +36,15 @@ socket.on("server-message", data => {
     
 });
 
-socket.emit("room", "Robocop")
 
-socket.on("room", data => {
+/*socket.on("room", data => {
   room=data;
-})
-function entrarchats(){
-  backChats()  
+})*/
+function entrarChat(div){
+  data={
+    mandar: div.id
+  }
+  socket.emit('room', data)  
 }
 
 async function backChats(){
