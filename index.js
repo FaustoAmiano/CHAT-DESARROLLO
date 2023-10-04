@@ -138,7 +138,7 @@ io.on("connection", (socket) => {
 
     //Función Listener
     //Esto serìa el equivalente a un app.post, app.get...
-
+    
     
 
     socket.on('incoming-message', data => {
@@ -152,12 +152,10 @@ io.on("connection", (socket) => {
 
     socket.on('room', data => {
         socket.join("room"+data.mandar)
-
-        socket.emit('event', nuevaPag())
+        nom=req.session.conectado
+        socket.emit('event', nom)
        // io.to(socket.id).emit("room", "room"+roomCounter)
-        
     })
-    
 });
 
 /*setInterval(() => io.to("room1").emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 1000);*/

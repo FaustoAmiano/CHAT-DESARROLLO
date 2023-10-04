@@ -65,3 +65,34 @@ async function backChats(){
     console.error("Error:", error);
   }
 }
+
+socket.on("event", nom=>{
+  console.log("nombre", nom)
+  document.getElementById("cuerpo").innerHTML +=`
+    <div class="col-md-8">
+      <div class="settings-tray">
+          <div class="friend-drawer no-gutters friend-drawer--grey">
+          <img class="profile-image" src="https://randomuser.me/api/portraits/men/30.jpg" alt="">
+          <div class="text">
+            <h6>${nom}</h6>
+            <p class="text-muted">Te tengo al lado y me siento solo...</p>
+          </div>
+          <span class="settings-tray--right">
+            <i class="material-icons">cached</i>
+          </span>
+        </div>
+      </div>
+      <div class="chat-panel" id="chat-panel">
+        <div class="row" id="escribir">
+          <div class="col-12">
+            <div class="chat-box-tray">
+              <input type="text" placeholder="Type your message here..." id="msj">
+              <input type="button" value="Enviar" id="Enviar" onclick="funcionPrueba()"> 
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    `;
+
+})
