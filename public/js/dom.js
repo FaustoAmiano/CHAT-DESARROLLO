@@ -45,7 +45,31 @@ function nuevoUsuario(){
     registrarse(data)
 
 }
-
+function guardarMensaje(){
+  let mensaje= document.getElementById("msj").value
+  let msj={
+    message: mensaje
+  }
+  guardarMsj(msj)
+}
+async function guardarMsj(msj){
+  try {
+    const response = await fetch("/guardarMensaje", {
+      method: "POST", // or 'POST'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(msj),
+    });
+    
+    //En result obtengo la respuesta
+    const result = await response.json();
+    console.log("Success:", result);
+    
+    } catch (error) {
+      console.error("Error:", error);
+    }
+}
 async function registrarse(data){
     try {
     const response = await fetch("/nuevoUsuario", {

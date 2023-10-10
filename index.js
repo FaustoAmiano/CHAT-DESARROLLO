@@ -160,10 +160,13 @@ io.on("connection", (socket) => {
 
 /*setInterval(() => io.to("room1").emit("server-message", { mensaje: "MENSAJE DEL SERVIDOR" }), 1000);*/
 
-/*async function guardarMensaje(mensaje){
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, id_contacto, mensaje, fecha) VALUES "${}", "${req.session.id}", "${mensaje}", "${}" `)
-}*/
 
+
+app.post('/nuevoUsuario', async function(req, res)
+{
+    console.log(req.session.id)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_contacto, mensaje, fecha) VALUES  "${req.session.id}", "${mensaje}", "NOW("`)
+});
 
 io.on("connection", socket => {
     socket.join("some room");
@@ -173,7 +176,6 @@ app.put('/mostrarChats', async function(req, res) {
     //Petición PUT con URL = "/login"
     console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
     let vector = [await MySQL.realizarQuery(` SELECT * FROM chats `)]
-    console.log(vector)
     if (vector.length > 0) {
         res.send({chats: vector})    
     }
