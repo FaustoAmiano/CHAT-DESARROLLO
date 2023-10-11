@@ -162,10 +162,10 @@ io.on("connection", (socket) => {
 
 
 
-app.post('/nuevoUsuario', async function(req, res)
+app.post('/guardarMensaje', async function(req, res)
 {
     console.log(req.session.id)
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_contacto, mensaje, fecha) VALUES  "${req.session.id}", "${mensaje}", "NOW("`)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_contacto, mensaje, fecha) VALUES  "${req.session.id}", "${mensaje}", "NOW()"`)
 });
 
 io.on("connection", socket => {
