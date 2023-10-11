@@ -7,7 +7,7 @@ socket.on("connect", () => {
 });
 
 
-function funcionPrueba() {
+function mandarMensaje() {
     textoEnviado= document.getElementById("msj").value
     if (textoEnviado==""){
       console.log("No escribio nada")
@@ -22,7 +22,7 @@ function funcionPrueba() {
 socket.on("server-message", data => {
     
     console.log("Me llego del servidor", data);
-    document.getElementById("nuewvoMensaje").innerHTML += `
+    document.getElementById("nuevoMensaje").innerHTML += `
     <div class="chat-panel">
     <div class="row no-gutters">
       <div class="col-md-3 offset-md-9">
@@ -66,15 +66,15 @@ async function backChats(){
   }
 }
 
-socket.on("event", nom=>{
+socket.on("cambioSala", nom=>{
   console.log("nombre", nom)
-  document.getElementById("cuerpo").innerHTML +=`
+  document.getElementById("cuerpo").innerHTML =`
     <div class="col-md-8">
       <div class="settings-tray">
           <div class="friend-drawer no-gutters friend-drawer--grey">
           <img class="profile-image" src="https://randomuser.me/api/portraits/men/30.jpg" alt="">
           <div class="text">
-            <h6>${nom}</h6>
+            <h6>Chat ${nom}</h6>
             <p class="text-muted">Te tengo al lado y me siento solo...</p>
           </div>
           <span class="settings-tray--right">
@@ -87,7 +87,7 @@ socket.on("event", nom=>{
           <div class="col-12">
             <div class="chat-box-tray">
               <input type="text" placeholder="Type your message here..." id="msj">
-              <input type="button" value="Enviar" id="Enviar" onclick="funcionPrueba()"> 
+              <input type="button" value="Enviar" id="Enviar" onclick="mandarMensaje()"> 
             </div>
           </div>
         </div>

@@ -65,12 +65,20 @@ app.get('/', function(req, res)
 
 app.put('/login', async function(req, res){
     console.log("Soy un pedido PUT", req.body);
-
+    let usuarios = await MySQL.realizarQuery(`SELECT * FROM Contactos`)
+    for (let i in usuarios) {
+        if(usuarios[i].user == req.body.usuario) {
+            if(usuarios[i].password = req.body.pass) {
+                console.log(usuarios[i].ID_contact)
+                req.session.ID_contact = usuarios[i].ID_contact
+                console.log(req.session.ID_contact)
+            }
+        }
+    }
     let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
-    
+    let contacto = await MySQL.realizarQuery(` SELECT ID_contact FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
     req.session.conectado = req.body.usuario;
-    req.session.id = req.body.ID_contact;
-    
+
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -145,15 +153,16 @@ io.on("connection", (socket) => {
         mensajess=data.mensaje
         console.log(mensajess)
         console.log(req.session.conectado)
-        guardarMensaje(mensajess)
+        saveMessage(mensajess, req.session)
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
     });
 
     socket.on('room', data => {
         socket.join("room"+data.mandar)
-        nom=req.session.conectado
-        socket.emit('event', nom)
+        nom=data.mandar
+        req.session.room = "room"+data.mandar;
+        io.to(req.session.room).emit('cambioSala', nom)
        // io.to(socket.id).emit("room", "room"+roomCounter)
     })
 });
@@ -162,11 +171,11 @@ io.on("connection", (socket) => {
 
 
 
-app.post('/guardarMensaje', async function(req, res)
+async function saveMessage(data, session)
 {
-    console.log(req.session.id)
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_contacto, mensaje, fecha) VALUES  "${req.session.id}", "${mensaje}", "NOW()"`)
-});
+    console.log(session.id_contacto)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(ID_contact, mensaje, fecha) VALUES  "${session.ID_contact}", "${data}", "NOW()"`)
+};
 
 io.on("connection", socket => {
     socket.join("some room");
