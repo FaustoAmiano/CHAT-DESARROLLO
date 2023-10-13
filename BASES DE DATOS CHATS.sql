@@ -31,7 +31,7 @@ INSERT INTO Contactos  (user,password)
 Values
 ('faustoide', 'pepe'),
 ('nbasile', 'grego'),
-('richard', 'momo'),
+('richard', 'momo'), 
 ('cirito', 'george')
 ;
 Select *

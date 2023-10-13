@@ -42,7 +42,8 @@ socket.on("server-message", data => {
 })*/
 function entrarChat(div){
   data={
-    mandar: div.id
+    mandar: div.id,
+    nombre: div.name
   }
   socket.emit('room', data)  
 }

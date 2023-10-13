@@ -65,31 +65,20 @@ app.get('/', function(req, res)
 
 app.put('/login', async function(req, res){
     console.log("Soy un pedido PUT", req.body);
-    let usuarios = await MySQL.realizarQuery(`SELECT * FROM Contactos`)
-    for (let i in usuarios) {
-        if(usuarios[i].user == req.body.usuario) {
-            if(usuarios[i].password = req.body.pass) {
-                console.log(usuarios[i].ID_contact)
-                req.session.ID_contact = usuarios[i].ID_contact
-                console.log(req.session.ID_contact)
-            }
-        }
-    }
-    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
-    let contacto = await MySQL.realizarQuery(` SELECT ID_contact FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
-    req.session.conectado = req.body.usuario;
+    
+    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.user}" AND password = "${req.body.pass}"`)
+    req.session.conectado = req.body.user;
 
     if (respuesta.length > 0) {
         res.send({validar: true})
     
     }
-    else{
+    else{ 
         res.send({validar:false})    
     } 
 });
 
 app.get('/registrarse', function(req, res){
-    //Petición GET con URL = "/login"
     console.log("Soy un pedido GET", req.query); 
     //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
     res.render('Registro', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
@@ -98,7 +87,6 @@ app.get('/registrarse', function(req, res){
 app.post('/nuevoUsuario', async function(req, res)
 {
     let validar = true
-    //Petición POST con URL = "/login"
     console.log("Soy un pedido POST", req.body); 
     let users= await MySQL.realizarQuery("SELECT * FROM Contactos")
     if (req.body.user.length == 0 || req.body.pass.length == 0 ){
@@ -125,20 +113,7 @@ app.post('/nuevoUsuario', async function(req, res)
     //res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
 });
 
-app.post('/login', function(req, res)
-{
-    //Petición GET con URL = "/login"
-    console.log("Soy un pedido Post login", req.query); 
-    //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
-    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
-});
 
-
-app.delete('/login', function(req, res) {
-    //Petición DELETE con URL = "/login"
-    console.log("Soy un pedido DELETE", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método DELETE
-    res.send(null);
-});
 let roomCounter= 0;
 io.on("connection", (socket) => {
     //Esta línea es para compatibilizar con lo que venimos escribiendo
@@ -161,9 +136,10 @@ io.on("connection", (socket) => {
     socket.on('room', data => {
         socket.join("room"+data.mandar)
         nom=data.mandar
-        req.session.room = "room"+data.mandar;
+        nom2=data.name
+        req.session.room = "room"+data.mandar; 
         io.to(req.session.room).emit('cambioSala', nom)
-       // io.to(socket.id).emit("room", "room"+roomCounter)
+        //io.to(req.session.room).emit('cambioSala', nom2)
     })
 });
 
@@ -182,7 +158,6 @@ io.on("connection", socket => {
 });
 
 app.put('/mostrarChats', async function(req, res) {
-    //Petición PUT con URL = "/login"
     console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
     let vector = [await MySQL.realizarQuery(` SELECT * FROM chats `)]
     if (vector.length > 0) {
