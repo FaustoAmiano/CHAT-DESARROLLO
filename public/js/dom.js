@@ -137,6 +137,53 @@ async function mostrar() {
 }
 }
 
+/*function mostrarMensasjes(){
+  console.log("se pueden hacer funciones por websocket")
+}*/
+
+async function mostrarMensasjes() {
+  try {
+    const response = await fetch("/mostrarMensajes", {
+      method: "PUT", // or 'POST'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({validar: true}),
+    });
+    
+    //En result obtengo la respuesta
+    const result = await response.json();
+
+    console.log("Success:", result);
+    let vector = result.mensajes
+    let usuario = result.user
+    console.log(result.mensajes[0][0].mensaje)
+    for (let i = 0; i < result.mensajes[0].length; i++){
+      const element = result.mensajes[0][i];
+      console.log("Elemnt: ",element.mensaje)
+      console.log("Elemnt: ",element.ID_contact)
+      let html = `<div class="row no-gutters" id=${element.id_mensaje} >
+      <div class="col-md-3">`
+      if(element.ID_contact != usuario){
+        html += `<div class="chat-bubble chat-bubble--left">
+          ${element.mensaje} 
+        </div>`} 
+        else{
+          `<div class="chat-bubble chat-bubble--right">
+          ${element.mensaje} 
+        </div>`
+        }
+      html+= `</div>  
+    </div>
+    `
+    document.getElementById("mensajesViejos").innerHTML += html;
+    }
+  }
+  catch (error) {
+    console.error("Error:", error);
+  
+}
+}
 
 
 
@@ -145,7 +192,6 @@ async function mostrar() {
   $( '.chat-bubble' ).hide('slow').show('slow');
   
 });*/
-
 
 
 

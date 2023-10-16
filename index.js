@@ -44,6 +44,7 @@ app.use(sessionMiddleware);
 io.use(function(socket, next) {
     sessionMiddleware(socket.request, socket.request.res, next);
 });
+app.use(session({secret: '123456', resave: true, saveUninitialized: true}));
 /*
     A PARTIR DE ESTE PUNTO GENERAREMOS NUESTRO CÓDIGO (PARA RECIBIR PETICIONES, MANEJO DB, ETC.)
     A PARTIR DE ESTE PUNTO GENERAREMOS NUESTRO CÓDIGO (PARA RECIBIR PETICIONES, MANEJO DB, ETC.)
@@ -67,8 +68,12 @@ app.put('/login', async function(req, res){
     console.log("Soy un pedido PUT", req.body);
     
     let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
-    req.session.conectado = req.body.user;
+    console.log(respuesta[0].ID_contact)
+    req.session.conectado = req.body.usuario;
+    req.session.identifi = respuesta[0].ID_contact
     console.log(respuesta)
+    console.log(req.session.conectado)
+    console.log(req.session.identifi)
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -166,11 +171,29 @@ io.on("connection", socket => {
 
 app.put('/mostrarChats', async function(req, res) {
     console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
-    let vector = [await MySQL.realizarQuery(` SELECT * FROM chats `)]
+    let vector = [await MySQL.realizarQuery(` SELECT * FROM chats inner join usuarios_chats on usuarios_chats.id_chat = chats.id_chat
+    Where ID_contact = ${req.session.identifi}`)]
+    let vector2 = [await MySQL.realizarQuery(` SELECT * FROM mensajes`)]
+    console.log(vector2)    
     if (vector.length > 0) {
         res.send({chats: vector})    
     }
     else{
         res.send({chats:false})    
+    }
+});
+
+app.put('/mostrarMensajes', async function(req, res) {
+    console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
+    let vector2 = [await MySQL.realizarQuery(` SELECT * FROM mensajes where id_chat= 1`)]
+    console.log(req.session.identifi)
+    idLog = req.session.identifi 
+    console.log(vector2)
+    console.log(idLog)    
+    if (vector2.length > 0) {
+        res.send({mensajes: vector2, user: idLog})    
+    }
+    else{
+        res.send({mensajes:false})    
     }
 });

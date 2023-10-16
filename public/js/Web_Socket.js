@@ -69,6 +69,7 @@ async function backChats(){
 
 socket.on("cambioSala", nom=>{
   console.log("nombre", nom)
+  mostrarMensasjes()
   document.getElementById("cuerpo").innerHTML =`
     <div class="col-md-8">
       <div class="settings-tray">
@@ -83,7 +84,13 @@ socket.on("cambioSala", nom=>{
           </span>
         </div>
       </div>
+      
       <div class="chat-panel" id="chat-panel">
+        <div class="row no-gutters" id="mensajesViejos" >
+          <div class="col-md-3">
+             
+        </div>
+        </div>
         <div class="row" id="escribir">
           <div class="col-12">
             <div class="chat-box-tray">
