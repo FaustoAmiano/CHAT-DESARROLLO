@@ -9,7 +9,6 @@ socket.on("connect", () => {
 
 function mandarMensaje() {
     textoEnviado = document.getElementById("msj").value
-    chat = document.getElementById("nombreChat").value
     console.log(chat)
     if (textoEnviado==""){
       console.log("No escribio nada")
