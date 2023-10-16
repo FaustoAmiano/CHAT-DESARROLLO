@@ -8,7 +8,9 @@ socket.on("connect", () => {
 
 
 function mandarMensaje() {
-    textoEnviado= document.getElementById("msj").value
+    textoEnviado = document.getElementById("msj").value
+    chat = document.getElementById("nombreChat").value
+    console.log(chat)
     if (textoEnviado==""){
       console.log("No escribio nada")
     }else{
@@ -43,7 +45,6 @@ socket.on("server-message", data => {
 function entrarChat(div){
   data={
     mandar: div.id,
-    nombre: div.name
   }
   socket.emit('room', data)  
 }

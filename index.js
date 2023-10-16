@@ -66,9 +66,9 @@ app.get('/', function(req, res)
 app.put('/login', async function(req, res){
     console.log("Soy un pedido PUT", req.body);
     
-    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.user}" AND password = "${req.body.pass}"`)
+    let respuesta= await MySQL.realizarQuery(` SELECT * FROM Contactos WHERE user= "${req.body.usuario}" AND password = "${req.body.pass}"`)
     req.session.conectado = req.body.user;
-
+    console.log(respuesta)
     if (respuesta.length > 0) {
         res.send({validar: true})
     
@@ -77,6 +77,13 @@ app.put('/login', async function(req, res){
         res.send({validar:false})    
     } 
 });
+
+app.post('/login', function(req, res){
+    console.log("Soy un pedido GET", req.query); 
+    //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
+    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
+});
+
 
 app.get('/registrarse', function(req, res){
     console.log("Soy un pedido GET", req.query); 
@@ -150,7 +157,7 @@ io.on("connection", (socket) => {
 async function saveMessage(data, session)
 {
     console.log(session.id_contacto)
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(ID_contact, mensaje, fecha) VALUES  "${session.ID_contact}", "${data}", "NOW()"`)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, ID_contact, mensaje, fecha) VALUES  "${session.ID_contact}", "${data}", "NOW()"`)
 };
 
 io.on("connection", socket => {
