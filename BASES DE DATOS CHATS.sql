@@ -34,22 +34,37 @@ Values
 ('richard', 'momo'), 
 ('cirito', 'george')
 ;
-Select *
-From Contactos
-;
+
 INSERT INTO usuarios_chats (id_chat, ID_contact)
 Values (1, 1);
 INSERT INTO usuarios_chats (id_chat, ID_contact)
-Values (2, 1);
+Values (1, 2);
 INSERT INTO usuarios_chats (id_chat, ID_contact)
 Values (2, 2);
 INSERT INTO usuarios_chats (id_chat, ID_contact)
-Values (3, 2);
+Values (2, 3);
 
-DELETE FROM Customers WHERE id_userchat= 6;
+insert into mensajes (id_chat, ID_contact, mensaje, fecha)
+Values (1, 2, "hola que tal", "2018-04-01")
+;
 
 select *
 from usuarios_chats
 ;
-INSERT INTO mensajes (id_chat, ID_contact, mensaje, fecha)
-Values (1, 1, "nigga", "2018-12-01");
+
+Select *
+From Contactos
+;
+
+select * 
+From chats
+;
+
+select *
+from mensajes
+;
+
+select * 
+From chats
+inner join usuarios_chats on usuarios_chats.id_chat = chats.id_chat
+Where ID_contact = 1;
