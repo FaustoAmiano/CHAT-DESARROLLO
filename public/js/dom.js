@@ -118,7 +118,7 @@ async function mostrar() {
       const element = vector.chats[0][i];
       console.log("Elemnt: ",element.nombre)
       let html = `
-        <div name="chatid" class="friend-drawer friend-drawer--onhover" id=${element.id_chat} onclick=entrarChat(this)>
+        <div name="chatid" class="friend-drawer friend-drawer--onhover" title = "${element.nombre}" id=${element.id_chat} onclick=entrarChat(this)>
         <div class="text">`
       html+=`
         <h6 id="nombreChat">${element.nombre}</h6>

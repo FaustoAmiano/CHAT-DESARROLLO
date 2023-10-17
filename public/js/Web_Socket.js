@@ -44,6 +44,7 @@ socket.on("server-message", data => {
 function entrarChat(div){
   data={
     mandar: div.id,
+    nombre: div.title
   }
   socket.emit('room', data)  
 }
@@ -67,8 +68,8 @@ async function backChats(){
   }
 }
 
-socket.on("cambioSala", nom=>{
-  console.log("nombre", nom)
+socket.on("cambioSala", nom2=>{
+  console.log("nombre", nom2)
   mostrarMensasjes()
   document.getElementById("cuerpo").innerHTML =`
     <div class="col-md-8">
@@ -76,7 +77,7 @@ socket.on("cambioSala", nom=>{
           <div class="friend-drawer no-gutters friend-drawer--grey">
           <img class="profile-image" src="https://randomuser.me/api/portraits/men/30.jpg" alt="">
           <div class="text">
-            <h6>Chat ${nom}</h6>
+            <h6>${nom2}</h6>
             <p class="text-muted">Te tengo al lado y me siento solo...</p>
           </div>
           <span class="settings-tray--right">

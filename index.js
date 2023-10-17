@@ -148,10 +148,11 @@ io.on("connection", (socket) => {
     socket.on('room', data => {
         socket.join("room"+data.mandar)
         nom=data.mandar
-        nom2=data.name
-        req.session.room = "room"+data.mandar; 
-        io.to(req.session.room).emit('cambioSala', nom)
-        //io.to(req.session.room).emit('cambioSala', nom2)
+        nom2=data.nombre
+        req.session.room = "room"+data.mandar;
+        console.log(req.session.room) 
+        //io.to(req.session.room).emit('cambioSala', nom)
+        io.to(req.session.room).emit('cambioSala', nom2)
     })
 });
 
