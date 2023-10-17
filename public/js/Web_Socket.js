@@ -9,7 +9,6 @@ socket.on("connect", () => {
 
 function mandarMensaje() {
     textoEnviado = document.getElementById("msj").value
-    console.log(chat)
     if (textoEnviado==""){
       console.log("No escribio nada")
     }else{
@@ -23,7 +22,7 @@ function mandarMensaje() {
 socket.on("server-message", data => {
     
     console.log("Me llego del servidor", data);
-    document.getElementById("nuevoMensaje").innerHTML += `
+    document.getElementById("mensajesViejos").innerHTML += `
     <div class="chat-panel">
     <div class="row no-gutters">
       <div class="col-md-3 offset-md-9">

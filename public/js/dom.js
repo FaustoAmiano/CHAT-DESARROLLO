@@ -163,15 +163,17 @@ async function mostrarMensasjes() {
       console.log("Elemnt: ",element.mensaje)
       console.log("Elemnt: ",element.ID_contact)
       let html = `<div class="row no-gutters" id=${element.id_mensaje} >
-      <div class="col-md-3">`
+      `
       if(element.ID_contact != usuario){
-        html += `<div class="chat-bubble chat-bubble--left">
+        html += `<div class="col-md-3">
+                <div class="chat-bubble chat-bubble--left">
           ${element.mensaje} 
-        </div>`} 
+        </div></div>`} 
         else{
-          `<div class="chat-bubble chat-bubble--right">
+          html += `<div class="col-md-3 offset-md-9">
+                  <div class="chat-bubble chat-bubble--right">
           ${element.mensaje} 
-        </div>`
+        </div></div>`
         }
       html+= `</div>  
     </div>

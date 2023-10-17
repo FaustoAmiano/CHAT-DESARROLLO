@@ -146,6 +146,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on('room', data => {
+        //req.session.sala.destroy();
         socket.join("room"+data.mandar)
         nom=data.mandar
         nom2=data.nombre
@@ -153,6 +154,7 @@ io.on("connection", (socket) => {
         console.log(req.session.sala)
         req.session.room = "room"+data.mandar;
         console.log(req.session.room) 
+        req.session.save();
         //io.to(req.session.room).emit('cambioSala', nom)
         io.to(req.session.room).emit('cambioSala', nom2)
     })
@@ -164,8 +166,14 @@ io.on("connection", (socket) => {
 
 async function saveMessage(data, session)
 {
-    console.log(session.id_contacto)
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, ID_contact, mensaje, fecha) VALUES  "${session.ID_contact}", "${data}", "NOW()"`)
+    console.log(session.identifi)
+    console.log(session.sala)
+    const date = Date.now()
+    console.log("MALDITA FECHA", date)
+  
+    let fecha = `${date.getYear()}-${date.getMonth()}-${date.getDay()}`
+    console.log(fecha)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, ID_contact, mensaje, fecha) VALUES  ("${session.sala}", "${session.identifi}", "${data}", "${fecha}")`)
 };
 
 io.on("connection", socket => {
