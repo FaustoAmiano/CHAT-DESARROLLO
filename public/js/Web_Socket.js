@@ -31,7 +31,7 @@ socket.on("server-message", data => {
         </div>
       </div>
     </div>
-    `; 
+    `;  
     
     
 });
