@@ -149,6 +149,8 @@ io.on("connection", (socket) => {
         socket.join("room"+data.mandar)
         nom=data.mandar
         nom2=data.nombre
+        req.session.sala = data.mandar
+        console.log(req.session.sala)
         req.session.room = "room"+data.mandar;
         console.log(req.session.room) 
         //io.to(req.session.room).emit('cambioSala', nom)
@@ -186,7 +188,8 @@ app.put('/mostrarChats', async function(req, res) {
 
 app.put('/mostrarMensajes', async function(req, res) {
     console.log("Soy un pedido PUT", req.body); //En req.body vamos a obtener el objeto con los parámetros enviados desde el frontend por método PUT
-    let vector2 = [await MySQL.realizarQuery(` SELECT * FROM mensajes where id_chat= 1`)]
+    console.log(req.session.sala)
+    let vector2 = [await MySQL.realizarQuery(` SELECT * FROM mensajes where id_chat= ${req.session.sala}`)]
     console.log(req.session.identifi)
     idLog = req.session.identifi 
     console.log(vector2)
