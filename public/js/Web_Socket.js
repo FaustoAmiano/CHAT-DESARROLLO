@@ -20,18 +20,32 @@ function mandarMensaje() {
     }
 }
 socket.on("server-message", data => {
-    
+    usuario = document.getElementById("user").value
     console.log("Me llego del servidor", data);
-    document.getElementById("mensajesViejos").innerHTML += `
-    <div class="chat-panel">
-    <div class="row no-gutters">
-      <div class="col-md-3 offset-md-9">
-        <div class="chat-bubble chat-bubble--right">
-          ${data.mensaje}
+    if (usuario == data.user ){
+      document.getElementById("mensajesViejos").innerHTML += `
+      <div class="chat-panel">
+      <div class="row no-gutters">
+        <div class="col-md-3 offset-md-9">
+          <div class="chat-bubble chat-bubble--right">
+            ${data.mensaje}
+          </div>
         </div>
       </div>
-    </div>
-    `;  
+      `;
+    }
+    else{
+      document.getElementById("mensajesViejos").innerHTML += `
+      <div class="chat-panel">
+      <div class="row no-gutters">
+        <div class="col-md-3">
+          <div class="chat-bubble chat-bubble--left">
+            ${data.mensaje}
+          </div>
+        </div>
+      </div>
+      `;
+    }  
     
     
 });

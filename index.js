@@ -36,7 +36,7 @@ const io = require('socket.io')(server);
 const sessionMiddleware = session({
     secret: 'sararasthastka',
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
 });
 
 app.use(sessionMiddleware);
@@ -44,7 +44,6 @@ app.use(sessionMiddleware);
 io.use(function(socket, next) {
     sessionMiddleware(socket.request, socket.request.res, next);
 });
-app.use(session({secret: '123456', resave: true, saveUninitialized: true}));
 /*
     A PARTIR DE ESTE PUNTO GENERAREMOS NUESTRO CÓDIGO (PARA RECIBIR PETICIONES, MANEJO DB, ETC.)
     A PARTIR DE ESTE PUNTO GENERAREMOS NUESTRO CÓDIGO (PARA RECIBIR PETICIONES, MANEJO DB, ETC.)
@@ -86,7 +85,7 @@ app.put('/login', async function(req, res){
 app.post('/login', function(req, res){
     console.log("Soy un pedido GET", req.query); 
     //En req.query vamos a obtener el objeto con los parámetros enviados desde el frontend por método GET
-    res.render('home', null); //Renderizo página "home" sin pasar ningún objeto a Handlebars
+    res.render('home', {user: req.session.conectado}); //Renderizo página "home" sin pasar ningún objeto a Handlebars
 });
 
 
@@ -142,7 +141,8 @@ io.on("connection", (socket) => {
         console.log(req.session.conectado)
         nameLogueado = req.session.conectado
         saveMessage(mensajess, req.session)
-        console.log("INCOMING MESSAGE:", data);   
+        console.log("INCOMING MESSAGE:", data);
+        data.user = nameLogueado
         io.emit("server-message", data);     
     });
 

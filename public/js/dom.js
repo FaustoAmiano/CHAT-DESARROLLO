@@ -157,11 +157,12 @@ async function mostrarMensasjes() {
     console.log("Success:", result);
     let vector = result.mensajes
     let usuario = result.user
+    console.log("Soy el usuario ", usuario)
     console.log(result.mensajes[0][0].mensaje)
     for (let i = 0; i < result.mensajes[0].length; i++){
       const element = result.mensajes[0][i];
-      console.log("Elemnt: ",element.mensaje)
-      console.log("Elemnt: ",element.ID_contact)
+      //console.log("Elemnt: ",element.mensaje)
+      //console.log("Elemnt: ",element.ID_contact)
       let html = `<div class="row no-gutters" id=${element.id_mensaje} >
       `
       if(element.ID_contact != usuario){
