@@ -140,6 +140,7 @@ io.on("connection", (socket) => {
         mensajess=data.mensaje
         console.log(mensajess)
         console.log(req.session.conectado)
+        nameLogueado = req.session.conectado
         saveMessage(mensajess, req.session)
         console.log("INCOMING MESSAGE:", data);   
         io.emit("server-message", data);     
@@ -168,12 +169,7 @@ async function saveMessage(data, session)
 {
     console.log(session.identifi)
     console.log(session.sala)
-    const date = Date.now()
-    console.log("MALDITA FECHA", date)
-  
-    let fecha = `${date.getYear()}-${date.getMonth()}-${date.getDay()}`
-    console.log(fecha)
-    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, ID_contact, mensaje, fecha) VALUES  ("${session.sala}", "${session.identifi}", "${data}", "${fecha}")`)
+    respuesta= await MySQL.realizarQuery(` INSERT INTO mensajes(id_chat, ID_contact, mensaje, fecha) VALUES  ("${session.sala}", "${session.identifi}", "${data}", NOW())`)
 };
 
 io.on("connection", socket => {
